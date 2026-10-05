@@ -5,7 +5,7 @@ using MaintenanceBackend;
 var builder = WebApplication.CreateBuilder(args);
 
 // 1. Configure Serilog to replace the default .NET logger
-builder.Host.UseSerilog((context, configuration) => 
+builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
 
 // 2. Configure Entity Framework to use Postgres

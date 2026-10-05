@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/gateway/">
+    <Project Path="src/gateway/Gateway.csproj" />
+  </Folder>
+  <Folder Name="/src/maintenance/">
+    <Project Path="src/maintenance/Maintenance.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/maintenance/Maintenance.Tests.csproj" />
+  </Folder>
+</Solution>

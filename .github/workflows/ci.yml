@@ -51,7 +51,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build Gateway Docker Image
-        run: docker build -t isi-gateway:ci -f ./src/gateway/Dockerfile ./src/gateway
+        run: docker build -t isi-gateway:ci -f ./src/gateway/Dockerfile .
 
       - name: Build Maintenance Backend Docker Image
-        run: docker build -t isi-maintenance:ci -f ./src/maintenance/Dockerfile ./src/maintenance
+        run: docker build -t isi-maintenance:ci -f ./src/maintenance/Dockerfile .

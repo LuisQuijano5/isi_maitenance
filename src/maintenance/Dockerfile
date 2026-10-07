@@ -2,11 +2,12 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
-COPY ["Maintenance.csproj", "./"]
-RUN dotnet restore "./Maintenance.csproj"
+COPY ["src/maintenance/Maintenance.csproj", "src/maintenance/"]
+RUN dotnet restore "src/maintenance/Maintenance.csproj"
 
-COPY . .
-RUN dotnet publish "./Maintenance.csproj" -c Release -o /app/publish /p:UseAppHost=false
+COPY src/maintenance/ src/maintenance/
+RUN dotnet publish "src/maintenance/Maintenance.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
 
 # STAGE 2: Final Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final

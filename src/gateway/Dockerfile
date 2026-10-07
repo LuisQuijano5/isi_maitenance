@@ -2,11 +2,11 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
-COPY ["Gateway.csproj", "./"]
-RUN dotnet restore "./Gateway.csproj"
+COPY ["src/gateway/Gateway.csproj", "src/gateway/"]
+RUN dotnet restore "src/gateway/Gateway.csproj"
 
-COPY . .
-RUN dotnet publish "./Gateway.csproj" -c Release -o /app/publish /p:UseAppHost=false
+COPY src/gateway/ src/gateway/
+RUN dotnet publish "src/gateway/Gateway.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 # STAGE 2: Final Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final

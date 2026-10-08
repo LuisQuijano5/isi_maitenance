@@ -1,0 +1,40 @@
+name: CD Production
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  deploy-prod:
+    name: Deploy to Production VM
+    runs-on: [self-hosted, production]
+    environment: production
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GHCR via Podman
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | podman login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Generate Production .env file
+        run: |
+          mkdir -p infrastructure/config
+          OWNER_LC=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          cat <<EOF > infrastructure/config/.env
+          REPO_OWNER=${OWNER_LC}
+          POSTGRES_DB=${{ vars.POSTGRES_DB }}
+          POSTGRES_USER=${{ vars.POSTGRES_USER }}
+          POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+          ASPNETCORE_ENVIRONMENT=${{ vars.ASPNETCORE_ENVIRONMENT }}
+          ASPNETCORE_URLS=http://+:8080
+          EOF
+
+      - name: Deploy with Podman Compose
+        run: |
+          podman-compose --env-file infrastructure/config/.env -f infrastructure/compose/docker-compose.prod.yml pull
+          podman-compose --env-file infrastructure/config/.env -f infrastructure/compose/docker-compose.prod.yml down 
+          podman-compose --env-file infrastructure/config/.env -f infrastructure/compose/docker-compose.prod.yml up -d

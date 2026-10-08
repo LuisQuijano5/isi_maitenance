@@ -70,8 +70,9 @@ jobs:
       - name: Generate .env file
         run: |
           mkdir -p infrastructure/config
+          OWNER_LC=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
           cat <<EOF > infrastructure/config/.env
-          REPO_OWNER=${GITHUB_REPOSITORY_OWNER,,}
+          REPO_OWNER=${OWNER_LC}
           POSTGRES_DB=${{ vars.POSTGRES_DB }}
           POSTGRES_USER=${{ vars.POSTGRES_USER }}
           POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
@@ -103,8 +104,9 @@ jobs:
       - name: Generate Production .env file
         run: |
           mkdir -p infrastructure/config
+          OWNER_LC=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
           cat <<EOF > infrastructure/config/.env
-          REPO_OWNER=${GITHUB_REPOSITORY_OWNER,,}
+          REPO_OWNER=${OWNER_LC}
           POSTGRES_DB=${{ vars.POSTGRES_DB }}
           POSTGRES_USER=${{ vars.POSTGRES_USER }}
           POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}

@@ -16,6 +16,7 @@ services:
     restart: unless-stopped
     environment:
       ACCEPT_EULA: Y
+      SEQ_FIRSTRUN_ADMINPASSWORD: ${SEQ_ADMINPASS}
     volumes:
       - seq_data_prod:/data
 

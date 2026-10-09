@@ -58,6 +58,7 @@ jobs:
     name: Deploy to Staging VM
     needs: publish-images
     runs-on: [self-hosted, staging]
+    environment: staging
 
     steps:
       - name: Checkout Repository
